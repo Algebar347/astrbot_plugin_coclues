@@ -31,7 +31,7 @@ class MyPlugin(Star):
     async def clues(self, event: AstrMessageEvent):
         name= event.message_str
         # 数据库连接配置
-        DATABASE_URI = 'mysql+mysqldb://root@localhost/test'  # 替换为你的数据库信息
+        DATABASE_URI = 'mysql+mysqldb://root@84.235.248.49/test'  # 替换为你的数据库信息
         engine = create_engine(DATABASE_URI)
 
         Base = declarative_base()
