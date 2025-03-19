@@ -1,8 +1,6 @@
-# helloworld
+# coc线索bot
 
-AstrBot 插件模板
-
-A template plugin for AstrBot plugin feature
+简单数据库查询
 
 # 支持
 
