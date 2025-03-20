@@ -14,7 +14,7 @@ class MyPlugin(Star):
         Base = declarative_base()
         # 定义模型
         class Clue(Base):
-            __tablename__ = 'test'
+            __tablename__ = 'clues'
             id = Column(Integer, primary_key=True)
             name = Column(String(255), nullable=False)
             description = Column(String)
