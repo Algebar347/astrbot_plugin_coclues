@@ -46,8 +46,8 @@ class MyPlugin(Star):
 
     @crimsonletters.command("线索")
     async def clues(self, event: AstrMessageEvent):
-        name = event.message_str
-
+        name = event.get_message_str()
+        yield event.plain_result(f"{name}")
         def get_clues_by_name(name):
             """根据名称查询线索"""
             clues = self.session.query(self.Clue).filter(self.Clue.name == name).all()
