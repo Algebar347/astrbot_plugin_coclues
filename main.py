@@ -1,7 +1,7 @@
 from astrbot.api.event import filter, AstrMessageEvent, MessageEventResult
 from astrbot.api.star import Context, Star, register
 from astrbot.api import logger
-from sqlalchemy import create_engine, Column, Integer, String, Date, Time
+from sqlalchemy import create_engine, Column, Integer, String, Date, Time,Enum
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker
 
 @register("Coclues", "韵鱼", "跑团线索记录插件", "1.0.0")
@@ -16,14 +16,14 @@ class MyPlugin(Star):
         Base = declarative_base()
         # 定义模型
         # 通用线索
-        class Clue(Base):
-            __tablename__ = 'clues'
-            id = Column(Integer, primary_key=True)
-            name = Column(String(255), nullable=False)
-            description = Column(String)
-            status = Column(Enum('confirmed', 'doubtful'), default='doubtful')
-            type = Column(Enum('location', 'item', 'event'), nullable=False)
-        self.Clue = Clue
+        # class Clue(Base):
+        #     __tablename__ = 'clues'
+        #     id = Column(Integer, primary_key=True)
+        #     name = Column(String(255), nullable=False)
+        #     description = Column(String)
+        #     status = Column(Enum('confirmed', 'doubtful'), default='doubtful')
+        #     type = Column(Enum('location', 'item', 'event'), nullable=False)
+        # self.Clue = Clue
         # 人物
         class Character(Base):
             __tablename__ = 'characters'
@@ -75,21 +75,21 @@ class MyPlugin(Star):
         "/猩红文档 角色"
         yield event.plain_result(f"{instructions}")
 
-    @crimsonletters.command("线索")
-    async def clues(self, event: AstrMessageEvent):
-        self.init_database()
-        name = event.get_message_str().replace("猩红文档 线索", "", 1).strip()
-        def get_clues_by_name(name):
-            """根据名称查询线索"""
-            clues = self.session.query(self.Clue).filter(self.Clue.name == name).all()
-            return clues
+    # @crimsonletters.command("线索")
+    # async def clues(self, event: AstrMessageEvent):
+    #     self.init_database()
+    #     name = event.get_message_str().replace("猩红文档 线索", "", 1).strip()
+    #     def get_clues_by_name(name):
+    #         """根据名称查询线索"""
+    #         clues = self.session.query(self.Clue).filter(self.Clue.name == name).all()
+    #         return clues
 
-        found_clues = get_clues_by_name(name)
-        if found_clues:
-            for clue in found_clues:
-                yield event.plain_result(f"线索: {clue.name}\n 描述: {clue.description}\n 状态: {clue.status}")
-        else:
-            yield event.plain_result("未找到相关线索。")
+    #     found_clues = get_clues_by_name(name)
+    #     if found_clues:
+    #         for clue in found_clues:
+    #             yield event.plain_result(f"线索: {clue.name}\n 描述: {clue.description}\n 状态: {clue.status}")
+    #     else:
+    #         yield event.plain_result("未找到相关线索。")
 
     @crimsonletters.command("人物")
     async def characters(self, event: AstrMessageEvent):
