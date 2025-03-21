@@ -95,6 +95,7 @@ class MyPlugin(Star):
     async def characters(self, event: AstrMessageEvent):
         self.init_database()
         name = event.get_message_str().replace("猩红文档 人物", "", 1).strip()
+        
         def get_characters_by_name(name):
             """根据名称查询人物"""
             characters = self.session.query(self.Character).filter(self.Character.name == name).all()
@@ -103,14 +104,16 @@ class MyPlugin(Star):
         found_characters = get_characters_by_name(name)
         if found_characters:
             character_info = "\n\n".join([
-                (f"{i.full_name}" if i.full_name else "") +
-                (f"{i.role}" if i.role else "") +
-                (f"{i.clue1}" if i.clue1 else "") +
-                (f"{i.clue2}" if i.clue2 else "") +
-                (f"{i.clue3}" if i.clue3 else "")
+                "\n".join(filter(None, [
+                    f"{i.full_name}" if i.full_name else None,
+                    f"{i.role}" if i.role else None,
+                    f"{i.clue1}" if i.clue1 else None,
+                    f"{i.clue2}" if i.clue2 else None,
+                    f"{i.clue3}" if i.clue3 else None
+                ]))
                 for i in found_characters
             ])
-            yield event.plain_result(f"人物: {character_info}")
+            yield event.plain_result(f"人物信息：\n{character_info}")
         else:
             found_allcharacters = self.session.query(self.Character.name).all()
             allcharacters = "\n".join([i[0] for i in found_allcharacters])
