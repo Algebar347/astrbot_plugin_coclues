@@ -102,16 +102,14 @@ class MyPlugin(Star):
 
         found_characters = get_characters_by_name(name)
         if found_characters:
-            character_info = "\n\n".join([  # 每个角色信息之间插入两个换行
-                 "\n".join(filter(None, [  # 过滤掉空字段
-                     i.full_name,
-                     i.role,
-                     i.clue1,
-                     i.clue2,
-                     i.clue3]
-                     ))
-                       for i in found_characters
-                       ])
+            character_info = "\n\n".join([
+                (f"{i.full_name}" if i.full_name else "") +
+                (f"{i.role}" if i.role else "") +
+                (f"{i.clue1}" if i.clue1 else "") +
+                (f"{i.clue2}" if i.clue2 else "") +
+                (f"{i.clue3}" if i.clue3 else "")
+                for i in found_characters
+            ])
             yield event.plain_result(f"人物: {character_info}")
         else:
             found_allcharacters = self.session.query(self.Character.name).all()
