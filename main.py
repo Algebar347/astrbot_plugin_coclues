@@ -105,11 +105,11 @@ class MyPlugin(Star):
         if found_characters:
             character_info = "\n\n".join([
                 "\n".join([
-                    f"{i.full_name}" if i.full_name else None,
-                    f"{i.role}" if i.role else None,
-                    f"{i.clue1}" if i.clue1 else None,
-                    f"{i.clue2}" if i.clue2 else None,
-                    f"{i.clue3}" if i.clue3 else None
+                    f"{i.full_name}" if i.full_name else "",
+                    f"{i.role}" if i.role else "",
+                    f"{i.clue1}" if i.clue1 else "",
+                    f"{i.clue2}" if i.clue2 else "",
+                    f"{i.clue3}" if i.clue3 else ""
                 ])
                 for i in found_characters
             ])
