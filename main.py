@@ -104,13 +104,13 @@ class MyPlugin(Star):
         found_characters = get_characters_by_name(name)
         if found_characters:
             character_info = "\n\n".join([
-                "\n".join(filter(None, [
+                "\n".join([
                     f"{i.full_name}" if i.full_name else None,
                     f"{i.role}" if i.role else None,
                     f"{i.clue1}" if i.clue1 else None,
                     f"{i.clue2}" if i.clue2 else None,
                     f"{i.clue3}" if i.clue3 else None
-                ]))
+                ])
                 for i in found_characters
             ])
             yield event.plain_result(f"人物信息：\n{character_info}")
