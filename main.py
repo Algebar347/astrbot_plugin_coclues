@@ -28,10 +28,10 @@ class MyPlugin(Star):
             id = Column(Integer, primary_key=True)
             name = Column(String(50), nullable=False)
             full_name = Column(String(100))
-            role = Column(Text)
-            clue1 = Column(Text)
-            clue2 = Column(Text)
-            clue3 = Column(Text)
+            role = Column(String)
+            clue1 = Column(String)
+            clue2 = Column(String)
+            clue3 = Column(String)
             relationships1 = relationship("Relationship", foreign_keys="[Relationship.character1_id]")
             relationships2 = relationship("Relationship", foreign_keys="[Relationship.character2_id]")
         self.Character = Character
@@ -41,8 +41,8 @@ class MyPlugin(Star):
             id = Column(Integer, primary_key=True)
             character1_id = Column(Integer, ForeignKey('characters.id', ondelete='CASCADE'))
             character2_id = Column(Integer, ForeignKey('characters.id', ondelete='CASCADE'))
-            relation = Column(Text)
-            status = Column(Text)
+            relation = Column(String)
+            status = Column(String)
         self.Relationship = Relationship
         #时间线
         class Timeline(Base):
@@ -50,15 +50,12 @@ class MyPlugin(Star):
             id = Column(Integer, primary_key=True)
             event_date = Column(Date, nullable=False)
             event_time = Column(Time)
-            description = Column(Text, nullable=False)
+            description = Column(String, nullable=False)
         self.Timeline = Timeline
 
         # 创建数据库会话
         Session = sessionmaker(bind=self.engine)
         self.session = Session()
-
-    def __del__(self):
-        self.session.close()
 
     @filter.command_group("猩红文档")
     def crimsonletters(self):
@@ -74,7 +71,7 @@ class MyPlugin(Star):
         "/猩红文档 时间线\n" \
         "/猩红文档 物品\n" \
         "/猩红文档 角色"
-        yield event.plain_result(instructions)
+        yield event.plain_result(f"{instructions}")
 
     @crimsonletters.command("线索")
     async def clues(self, event: AstrMessageEvent):
