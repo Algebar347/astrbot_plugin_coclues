@@ -100,7 +100,7 @@ class MyPlugin(Star):
             characters = self.session.query(self.Character).filter(self.Character.name == name).all()
             return characters
 
-        found_characters = get_characters_by_name(name)
+        found_characters = get_characters_by_name(name)[0]
         if found_characters:
             character_info=f"{found_characters.full_name}\n{found_characters.role}\n{found_characters.clue1}\n{found_characters.clue2}\n{found_characters.clue3}"
             yield event.plain_result(f"人物: {character_info}")
