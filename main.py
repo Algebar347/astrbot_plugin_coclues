@@ -1,7 +1,7 @@
 from astrbot.api.event import filter, AstrMessageEvent, MessageEventResult
 from astrbot.api.star import Context, Star, register
 from astrbot.api import logger
-from sqlalchemy import create_engine, Column, Integer, String, Date, Time,Enum
+from sqlalchemy import create_engine, Column, Integer, String, Date, Time,Enum,ForeignKey
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker
 
 @register("Coclues", "韵鱼", "跑团线索记录插件", "1.0.0")
