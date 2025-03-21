@@ -1,13 +1,15 @@
 from astrbot.api.event import filter, AstrMessageEvent, MessageEventResult
 from astrbot.api.star import Context, Star, register
 from astrbot.api import logger
-from sqlalchemy import create_engine, Column, Integer, String, Enum, ForeignKey, Table
+from sqlalchemy import create_engine, Column, Integer, String, Date, Time
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker
 
 @register("Coclues", "韵鱼", "跑团线索记录插件", "1.0.0")
 class MyPlugin(Star):
     def __init__(self, context: Context):
         super().__init__(context)
+    
+    def init_database(self):
         # 数据库连接配置
         DATABASE_URI = 'mysql+mysqldb://root:Wys3032083430.@127.0.0.1/crimsonletters'  # 替换为你的数据库信息
         self.engine = create_engine(DATABASE_URI)
@@ -75,6 +77,7 @@ class MyPlugin(Star):
 
     @crimsonletters.command("线索")
     async def clues(self, event: AstrMessageEvent):
+        self.init_database()
         name = event.get_message_str().replace("猩红文档 线索", "", 1).strip()
         def get_clues_by_name(name):
             """根据名称查询线索"""
@@ -90,6 +93,7 @@ class MyPlugin(Star):
 
     @crimsonletters.command("人物")
     async def characters(self, event: AstrMessageEvent):
+        self.init_database()
         name = event.get_message_str().replace("猩红文档 人物", "", 1).strip()
         def get_characters_by_name(name):
             """根据名称查询人物"""
@@ -107,6 +111,7 @@ class MyPlugin(Star):
 
     @crimsonletters.command("时间线")
     async def timeline(self, event: AstrMessageEvent):
+        self.init_database()
         found_timeline = self.session.query(self.Timeline).all()
         if found_timeline:
             timeline="\n".join([f"时间: {i.event_date} {i.event_time}\n 事件: {i.description}" for i in found_timeline])
@@ -116,6 +121,7 @@ class MyPlugin(Star):
 
     @crimsonletters.command("物品")
     async def objects(self, event: AstrMessageEvent):
+        self.init_database()
         def get_objects_by_name(name):
             """根据名称查询物品"""
             objects = self.session.query(self.Clue).filter(self.Clue.name == name, self.Clue.type == 'item').all()
