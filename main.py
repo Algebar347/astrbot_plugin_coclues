@@ -1,11 +1,6 @@
 from astrbot.api.event import filter, AstrMessageEvent, MessageEventResult
 from astrbot.api.star import Context, Star, register
 from astrbot.api import logger
-from import astrbot.api.message_components as Comp
-from astrbot.core.utils.session_waiter import (
-    session_waiter,
-    SessionController,
-)
 from sqlalchemy import create_engine, Column, Integer, String, Enum, ForeignKey, Table
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker
 
